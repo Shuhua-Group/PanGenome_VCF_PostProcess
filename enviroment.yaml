@@ -1,0 +1,10 @@
+name: PanVCF
+channels:
+- bioconda
+- conda-forge
+- defaults
+dependencies:
+- bcftools
+- vcfbub
+- snakemake
+- python3
