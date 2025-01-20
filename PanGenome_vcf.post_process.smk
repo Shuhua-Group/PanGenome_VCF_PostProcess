@@ -17,6 +17,8 @@ rule all:
         SVs_vcf_tbi = wd + out_prefix + '.SVs.normed.vcf.gz.tbi',        
         small_variants_vcf = wd + out_prefix + '.small_variants.normed.vcf.gz',
         small_variants_vcf_tbi = wd + out_prefix + '.small_variants.normed.vcf.gz.tbi',
+        SVs_map = expand(wd + 'temp/{chr}/temp.SVs.merge_map.csv',chr = CHROMOSOMES)
+
 
 # Remove too large variants
 rule vcfbub:
@@ -55,15 +57,14 @@ rule alt_alleles_grouping:
     threads: threads
     run:
         headers,vcf_main = vcf_file_read(input.chr_vcf)
-        vcf_small_variants, vcf_SVs = multi_process(vcf_main,variant_batch_process,threads)
+        vcf_small_variants, vcf_SVs df_map = multi_process(vcf_main,variant_batch_process,threads)
         with open(wd +'temp/'+params.chr+'/temp.small_variants.raw.vcf','w') as f:
-            f.writelines(headers[:-1])
-            f.write(headers[-1])
+            f.writelines(headers)
             f.writelines(vcf_small_variants)
         with open(wd +'temp/'+params.chr+'/temp.SVs.raw.vcf','w') as f:
-            f.writelines(headers[:-1])
-            f.write(headers[-1])
+            f.writelines(headers)
             f.writelines(vcf_SVs)
+        df_map.to_csv(wd +'temp/'+params.chr+'/temp.SVs.merge_map.csv',index=False)
         shell('bgzip -f '+ wd +'temp/'+params.chr+'/temp.small_variants.raw.vcf && tabix -f '+ output.chr_small_variants_raw_vcf)    
         shell('bgzip -f '+ wd +'temp/'+params.chr+'/temp.SVs.raw.vcf && tabix -f '+ output.chr_SVs_raw_vcf)    
 
