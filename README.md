@@ -42,4 +42,9 @@ CPC.HPRC.Phase1.processed.small_variants.normed.vcf.gz
 # biallelics SVs (abs(length(ALT_allele)-length(REF_allele))>=50)
 CPC.HPRC.Phase1.processed.SVs.normed.vcf.gz
 ```
+The allele correspondence before and after the merging is output as the following file:
+```
+temp/{chr}/temp.SVs.merge_map.csv
+```
+
 **[Note]** We have updated the process strategy about the complex loci with both small variants and SVs alleles, so that the number of variants is slightly different than in the paper.
