@@ -42,7 +42,7 @@ CPC.HPRC.Phase1.processed.small_variants.normed.vcf.gz
 # biallelics SVs (abs(length(ALT_allele)-length(REF_allele))>=50)
 CPC.HPRC.Phase1.processed.SVs.normed.vcf.gz
 ```
-The allele correspondence before and after the merging is output as the following file:
+The allele correspondence before and after the merging is output as the following files:
 ```
 temp/{chr}/temp.SVs.merge_map.csv
 ```
